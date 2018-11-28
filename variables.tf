@@ -22,6 +22,10 @@ variable "master_count" {
   default = 1
 }
 
+variable "infra_count" {
+  default = 1
+}
+
 variable "compute_node_count" {
   default = 3
 }

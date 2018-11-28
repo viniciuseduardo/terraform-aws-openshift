@@ -14,11 +14,6 @@ data "aws_ami" "commercial" {
   }
 
   filter {
-    name   = "name"
-    values = ["RHEL-7.5_HVM_GA-????????-x86_64-*-Access2-*"]
-  }
-
-  filter {
     name   = "virtualization-type"
     values = ["hvm"]
   }
@@ -27,6 +22,8 @@ data "aws_ami" "commercial" {
     name   = "block-device-mapping.volume-type"
     values = ["gp2"]
   }
+
+  name_regex = "^RHEL-7.*"
 }
 
 data "aws_ami" "community" {
@@ -45,14 +42,11 @@ data "aws_ami" "community" {
   }
 
   filter {
-    name   = "name"
-    values = ["CentOS Linux 7 x86_64 HVM EBS *"]
-  }
-
-  filter {
     name   = "virtualization-type"
     values = ["hvm"]
   }
+
+  name_regex = "^CentOS Linux 7.*"
 }
 
 locals {
