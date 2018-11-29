@@ -13,6 +13,7 @@ OSEv3:
     ansible_become: true
     openshift_deployment_type: ${openshift_deployment_type}
     openshift_release: "${openshift_major_version}"
+    openshift_version: "${openshift_major_version}"
     openshift_repos_enable_testing: ${openshift_repos_enable_testing}
     openshift_master_identity_providers:
       - name: 'test_identity_provider'
@@ -61,7 +62,7 @@ OSEv3:
       - cpu=100m,memory=100Mi
       system-reserved:
       - cpu=100m,memory=100Mi
-    openshift_certificate_expiry_warning_days: 30
+    openshift_certificate_expiry_warning_days: 90
     openshift_master_admission_plugin_config: '{ "MutatingAdmissionWebhook": { "configuration": { "apiVersion": "apiserver.config.k8s.io/v1alpha1", "kubeConfigFile": "/etc/origin/master/admin.kubeconfig", "kind": "WebhookAdmission" } }, "ValidatingAdmissionWebhook": { "configuration": { "apiVersion": "apiserver.config.k8s.io/v1alpha1", "kubeConfigFile": "/etc/origin/master/admin.kubeconfig", "kind": "WebhookAdmission" } } }'
     openshift_cluster_admin_users:
     - admin

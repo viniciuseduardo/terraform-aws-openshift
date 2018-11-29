@@ -4,10 +4,14 @@
     - name: ensure a list of packages for OpenShift install
       yum:
         name: "{{ packages }}"
+        enablerepo: "epel"
       vars:
         packages:
-        - atomic-openshift-clients
+        - atomic-openshift-utils
         - vim
+        - wget
+        - git
+        - nano
     - name: download ocinventory
       get_url:
         url: https://github.com/literalice/openshift-inventory-utils/releases/download/v0.2/ocinventory_unix

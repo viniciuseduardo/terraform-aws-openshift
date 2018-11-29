@@ -19,6 +19,33 @@ else
     ansible all -i $HOME/inventory.yaml -m systemd -a 'name=docker state=started enabled=yes'
 fi
 
-cd /usr/share/ansible/openshift-ansible
+rm -Rf $HOME/openshift-ansible
+git clone -b release-3.11 https://github.com/viniciuseduardo/openshift-ansible.git
+cd $HOME/openshift-ansible
+
+echo $(date) " - Setting up NetworkManager on eth0"
+DOMAIN=`domainname -d`
+DNSSERVER=`tail -1 /etc/resolv.conf | cut -d ' ' -f 2`
+
+ansible-playbook -i $HOME/inventory.yaml playbooks/openshift-node/network_manager.yml
+
+sleep 10
+ansible all -i $HOME/inventory.yaml -m systemd -a 'name=NetworkManager state=restarted'
+
+sleep 10
+ansible all -i $HOME/inventory.yaml -o -m command -a 'nmcli con modify eth0 ipv4.dns-search $DOMAIN, ipv4.dns $DNSSERVER'
+ansible all -i $HOME/inventory.yaml -m systemd -a 'name=NetworkManager state=restarted'
+
+echo $(date) " - NetworkManager configuration complete"
+
+sleep 5
+
+echo $(date) " - Running Prerequisites via Ansible Playbook"
 ansible-playbook -i $HOME/inventory.yaml playbooks/prerequisites.yml || { echo "Error on prerequisites" ; exit 1 ; }
+echo $(date) " - Prerequisites check complete"
+
+sleep 5
+
+echo $(date) " - Installing OpenShift Container Platform via Ansible Playbook"
 ansible-playbook -i $HOME/inventory.yaml playbooks/deploy_cluster.yml || { echo "Error on deploying cluster" ; exit 1 ; }
+echo $(date) " - OpenShift Origin Cluster install complete"

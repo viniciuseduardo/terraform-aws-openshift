@@ -15,8 +15,9 @@ resource "null_resource" "bastion_config" {
   provisioner "remote-exec" {
     inline = [
       "export ANSIBLE_HOST_KEY_CHECKING=False",
-      "sudo yum install -y openshift-ansible",
+      "sudo yum install -y --enablerepo=epel pyOpenSSL python-passlib",
       "ansible-playbook -i localhost, -c local ~/bastion-config-playbook.yaml",
+      "echo 'Configurated'"
     ]
   }
 

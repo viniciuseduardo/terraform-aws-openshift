@@ -10,6 +10,13 @@ resource "aws_security_group" "master_public" {
     cidr_blocks = ["${var.operator_cidrs}"]
   }
 
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["${var.operator_cidrs}"]
+  }
+
   egress {
     from_port        = 0
     to_port          = 0
