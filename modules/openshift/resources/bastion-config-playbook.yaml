@@ -7,8 +7,6 @@
         enablerepo: "epel"
       vars:
         packages:
-        - atomic-openshift-utils
-        - vim
         - wget
         - git
         - nano
