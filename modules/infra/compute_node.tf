@@ -9,10 +9,12 @@ resource "aws_launch_template" "compute_node" {
     }
   }
 
+  disable_api_termination = true
+
   image_id = "${local.base_image_id}"
 
   instance_type = "${var.compute_node_instance_type}"
-
+  
   iam_instance_profile {
     arn = "${aws_iam_instance_profile.compute_node.arn}"
   }
@@ -30,6 +32,10 @@ resource "aws_launch_template" "compute_node" {
     )}"
   }
 
+  monitoring {
+    enabled = true
+  }
+
   vpc_security_group_ids = ["${aws_security_group.node.id}"]
 }
 
@@ -39,6 +45,9 @@ resource "aws_autoscaling_group" "compute_node" {
   desired_capacity    = "${var.compute_node_count}"
   max_size            = "${var.compute_node_count}"
   min_size            = "${var.compute_node_count}"
+  force_delete        = false
+  health_check_grace_period = 600
+  
 
   # TODO workaround
   launch_template = {

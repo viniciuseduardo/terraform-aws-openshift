@@ -13,7 +13,10 @@ resource "aws_launch_template" "bastion" {
     }
   }
 
-  image_id = "${local.base_image_id}"
+  disable_api_termination = true
+
+  #"${local.base_image_id}" 
+  image_id = "ami-0aadff142eae62b97"
 
   instance_type = "t2.medium"
 
@@ -44,6 +47,8 @@ resource "aws_autoscaling_group" "bastion" {
   desired_capacity    = 1
   max_size            = 1
   min_size            = 1
+  force_delete        = false
+  health_check_grace_period = 600  
 
   launch_template = {
     id      = "${aws_launch_template.bastion.id}"

@@ -14,6 +14,8 @@ resource "aws_launch_template" "master" {
     }
   }
 
+  disable_api_termination = true
+
   image_id = "${local.base_image_id}"
 
   instance_type = "${var.master_instance_type}"
@@ -51,6 +53,8 @@ resource "aws_autoscaling_group" "master" {
   desired_capacity    = "${var.master_count}"
   max_size            = "${var.master_count}"
   min_size            = "${var.master_count}"
+  force_delete        = false
+  health_check_grace_period = 600
 
   # TODO workaround
   target_group_arns = ["${split(",", var.infra_node_count > 0 ? join(",", local.master_target_groups) : join(",", local.master_infra_target_groups))}"]

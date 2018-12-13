@@ -52,3 +52,11 @@ module "openshift" {
   public_certificate_key              = "${module.domain.public_certificate_key}"
   public_certificate_intermediate_pem = "${module.domain.public_certificate_intermediate_pem}"
 }
+
+terraform {
+  backend "s3" {
+    bucket="sysmi-devops"
+    key="openshift-factory/terraform.tfstate"
+    region="us-east-1"
+  }
+}
