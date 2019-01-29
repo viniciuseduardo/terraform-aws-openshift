@@ -1,0 +1,13 @@
+- hosts: all
+  become: true
+  tasks:
+    - name: ensure a list of packages for OpenShift install
+      yum:
+        name: "{{ packages }}"
+        enablerepo: "epel"
+      vars:
+        packages:
+        - wget
+        - git
+        - nano
+        - curl
