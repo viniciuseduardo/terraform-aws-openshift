@@ -8,9 +8,14 @@ ${master_nodes}
 ${master_nodes}
     nodes:
       hosts:
-${master_nodes}
+${master_nodes_labeled}
+${infra_nodes_labeled}
+${app_prod_nodes_labeled}
+${app_hmg_nodes_labeled}
+${app_dev_nodes_labeled}
     lb:
       hosts:
+${lb_nodes}        
   vars:
     timeout: 60
     ansible_user: ${ansible_user}

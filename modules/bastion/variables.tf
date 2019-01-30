@@ -49,3 +49,8 @@ variable "public_certificate_intermediate_pem" {
 }
 
 variable "master_nodes" { type = "list" }
+variable "infra_nodes" { type = "list" }
+variable "lb_nodes" { type = "list" }
+variable "app_prod_nodes" { type = "list" }
+variable "app_hmg_nodes" { type = "list" }
+variable "app_dev_nodes" { type = "list" }

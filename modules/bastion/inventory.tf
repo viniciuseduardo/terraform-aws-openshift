@@ -1,10 +1,68 @@
-data "template_file" "data_hosts" {
-  template = "${file("${path.module}/resources/hosts-details.tmpl")}"
+data "template_file" "master_hosts" {
+  template = "${file("${path.module}/resources/hosts.tmpl")}"
+  count    = "${length(var.master_nodes)}"
+
+  vars {
+    hostname = "${element(keys(var.master_nodes[count.index]), 0)}"
+  }
+}
+
+data "template_file" "lb_hosts" {
+  template = "${file("${path.module}/resources/hosts.tmpl")}"
+  count    = "${length(var.lb_nodes)}"
+
+  vars {
+    hostname = "${element(keys(var.lb_nodes[count.index]), 0)}"
+  }
+}
+
+data "template_file" "master_hosts_labeled" {
+  template = "${file("${path.module}/resources/hosts-labels.tmpl")}"
   count    = "${length(var.master_nodes)}"
 
   vars {
     hostname = "${element(keys(var.master_nodes[count.index]), 0)}"
     labels = "${element(values(var.master_nodes[count.index]), 0)}"
+  }
+}
+
+data "template_file" "infra_hosts_labeled" {
+  template = "${file("${path.module}/resources/hosts-labels.tmpl")}"
+  count    = "${length(var.infra_nodes)}"
+
+  vars {
+    hostname = "${element(keys(var.infra_nodes[count.index]), 0)}"
+    labels = "${element(values(var.infra_nodes[count.index]), 0)}"
+  }
+}
+
+data "template_file" "app_prod_hosts_labeled" {
+  template = "${file("${path.module}/resources/hosts-labels.tmpl")}"
+  count    = "${length(var.app_prod_nodes)}"
+
+  vars {
+    hostname = "${element(keys(var.app_prod_nodes[count.index]), 0)}"
+    labels = "${element(values(var.app_prod_nodes[count.index]), 0)}"
+  }
+}
+
+data "template_file" "app_hmg_hosts_labeled" {
+  template = "${file("${path.module}/resources/hosts-labels.tmpl")}"
+  count    = "${length(var.app_hmg_nodes)}"
+
+  vars {
+    hostname = "${element(keys(var.app_hmg_nodes[count.index]), 0)}"
+    labels = "${element(values(var.app_hmg_nodes[count.index]), 0)}"
+  }
+}
+
+data "template_file" "app_dev_hosts_labeled" {
+  template = "${file("${path.module}/resources/hosts-labels.tmpl")}"
+  count    = "${length(var.app_dev_nodes)}"
+
+  vars {
+    hostname = "${element(keys(var.app_dev_nodes[count.index]), 0)}"
+    labels = "${element(values(var.app_dev_nodes[count.index]), 0)}"
   }
 }
 
@@ -27,7 +85,15 @@ data "template_file" "template_inventory" {
     rhn_password                   = "${var.rhn_password}"
     rh_subscription_pool_id        = "${var.rh_subscription_pool_id}"
 
-    master_nodes = "${join("\n", data.template_file.data_hosts.*.rendered)}"
+    master_nodes = "${join("\n", data.template_file.master_hosts.*.rendered)}"
+    lb_nodes     = "${join("\n", data.template_file.lb_hosts.*.rendered)}"
+
+    master_nodes_labeled = "${join("\n", data.template_file.master_hosts_labeled.*.rendered)}"
+    infra_nodes_labeled  = "${join("\n", data.template_file.infra_hosts_labeled.*.rendered)}"
+    app_prod_nodes_labeled  = "${join("\n", data.template_file.app_prod_hosts_labeled.*.rendered)}"
+    app_hmg_nodes_labeled  = "${join("\n", data.template_file.app_hmg_hosts_labeled.*.rendered)}"
+    app_dev_nodes_labeled  = "${join("\n", data.template_file.app_dev_hosts_labeled.*.rendered)}"
+    
   }
 }
 

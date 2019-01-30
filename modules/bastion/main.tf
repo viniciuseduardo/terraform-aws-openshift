@@ -15,6 +15,7 @@ data "template_file" "deploy_cluster" {
   vars {
     platform_name           = "${var.platform_name}"
     openshift_major_version = "${var.openshift_major_version}"
+    use_community           = "${(var.use_community) ? "true" : ""}"
   }
 }
 
@@ -29,13 +30,13 @@ resource "null_resource" "main" {
     destination = "~/deploy-cluster.sh"
   }
 
-  # provisioner "remote-exec" {
-  #   inline = [
-  #     "chmod +x ~/deploy-cluster.sh",
-  #     "export USE_COMMUNITY=${var.use_community ? "true" : ""}",
-  #     "sh ~/deploy-cluster.sh",
-  #   ]
-  # }
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x ~/deploy-cluster.sh",
+      # "export USE_COMMUNITY=${var.use_community ? "true" : ""}",
+      # "sh ~/deploy-cluster.sh",
+    ]
+  }
 
   connection {
     type        = "ssh"

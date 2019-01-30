@@ -27,7 +27,30 @@ ip_addresses          = ["127.0.0.1", "0.0.0.0",]
 
 
 master_nodes = [ 
-                { asosmasprofap01.fapes-sede.com.br = "" }, 
-                { asosmasprofap02.fapes-sede.com.br = "" }, 
-                { asosmasprofap03.fapes-sede.com.br = "" }
+                { asosmasprofap01.fapes-sede.com.br = "node-config-master" }, 
+                { asosmasprofap02.fapes-sede.com.br = "node-config-master" }, 
+                { asosmasprofap03.fapes-sede.com.br = "node-config-master" }
+            ]
+
+infra_nodes = [ 
+                { asosindprofap01.fapes-sede.com.br = "node-config-infra" },
+                { asosindprofap02.fapes-sede.com.br = "node-config-infra" }
+            ]
+
+lb_nodes = [ 
+                { asoshprprofap01.fapes-sede.com.br = "" }
+            ]
+
+app_prod_nodes = [ 
+                { asosandprofap01.fapes-sede.com.br = "node-config-compute" }, 
+                { asosandprofap02.fapes-sede.com.br = "node-config-compute" }, 
+                { asosandprofap03.fapes-sede.com.br = "node-config-compute" }
+            ]
+
+app_hmg_nodes = [ 
+                { asosandhomfap01.fapes-sede.com.br = "node-config-compute" }
+            ]
+
+app_dev_nodes = [ 
+                { asosanddesfap01.fapes-sede.com.br = "node-config-compute" }
             ]

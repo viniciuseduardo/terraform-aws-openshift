@@ -32,7 +32,13 @@ module "bastion" {
   public_certificate_key              = "${module.security.leaf_private_key_pem}"
   public_certificate_intermediate_pem = "${module.security.ca_cert_pem}"
 
-  master_nodes = "${var.master_nodes}"
+  lb_nodes        = "${var.lb_nodes}"  
+  master_nodes    = "${var.master_nodes}"
+  infra_nodes     = "${var.infra_nodes}"
+  app_prod_nodes  = "${var.app_prod_nodes}"
+  app_hmg_nodes   = "${var.app_hmg_nodes}"
+  app_dev_nodes   = "${var.app_dev_nodes}"
+
 }
 
 terraform {
